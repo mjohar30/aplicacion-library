@@ -35,9 +35,28 @@ app.get('/libros/:id', (req, res) => {
   })
 })
 
-// app.post('/libros/:id/editar', (req, res))
+// app.post('/libros/:id/editar', (req, res) => {
+//   const libroABuscar = req.params.id
+//   const libroCambios = {req.body}
+//   Libro.findOne({id: libroABuscar}, 
+//     {$set: {id: {id}}}, {new: true}, (libros) => {
+//       if (err) return res.json({success: false, err})
+//     res.status(200).json({
+//       success: true
+//     })
+//   }) 
+// })
+
+app.delete('/libros/:id/borrar', (req, res) => {
+  const libroABuscar = req.params.id
+  Libro.deleteOne({id: libroABuscar}).then(libros => {
+      res.status(200).json({
+        success: true
+      })
+  })
+})
 
 
 app.listen(port, () => {
     console.log(`Servidor corriendo en el puerto ${port}`)
-  })
+})
