@@ -11,6 +11,7 @@ mongoose.connect("mongodb://localhost:27017/library")
 
 const {Libro} = require('./models/libro')
 
+//Entrega todos los libros
 app.get('/libros', (req,res) => {
   Libro.find({}, (err, libros) => { 
     if(err) return res.status(400).send(err)
@@ -18,6 +19,7 @@ app.get('/libros', (req,res) => {
   })
 })
 
+//Agrega un libro
 app.post('/libros/nuevo', (req,res)=>{
   const libro = new Libro(req.body)
   libro.save((err,doc) => {
@@ -27,14 +29,14 @@ app.post('/libros/nuevo', (req,res)=>{
     })
   })
 })
-
+//Entrega datos de ese libro por el id
 app.get('/libros/:id', (req, res) => {
   const libroABuscar = req.params.id
   Libro.find({id: libroABuscar}).then(libros => {
       res.send(libros)
   })
 })
-
+//Actualiza un libro
 // app.post('/libros/:id/editar', (req, res) => {
 //   const libroABuscar = req.params.id
 //   const libroCambios = {req.body}
@@ -47,6 +49,7 @@ app.get('/libros/:id', (req, res) => {
 //   }) 
 // })
 
+//Borra un libro
 app.delete('/libros/:id/borrar', (req, res) => {
   const libroABuscar = req.params.id
   Libro.deleteOne({id: libroABuscar}).then(libros => {
