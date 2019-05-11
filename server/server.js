@@ -10,6 +10,7 @@ app.use(express.json())
 mongoose.connect("mongodb://localhost:27017/library")
 
 const {Libro} = require('./models/libro')
+const {Autor} = require('./models/autor')
 
 //Entrega todos los libros
 app.get('/libros', (req,res) => {
@@ -56,6 +57,23 @@ app.delete('/libros/:id/borrar', (req, res) => {
       res.status(200).json({
         success: true
       })
+  })
+})
+
+app.get('/autores', (req,res) => {
+  Autor.find({}, (err, autores) => {
+    if (err) return res.status(400).send(err)
+    res.status(200).send(autores)
+  })
+})
+
+app.post('/autores/nuevo', (req,res) => {
+  const autor = new Autor(req.body)
+  autor.save((err,doc) => {
+    if (err) return res.json({success: false, err})
+    res.status(200).json({
+      success: true
+    })
   })
 })
 
