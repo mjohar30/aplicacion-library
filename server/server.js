@@ -37,23 +37,23 @@ app.get('/libros/:id', (req, res) => {
       res.send(libros)
   })
 })
+
 //Actualiza un libro
-// app.post('/libros/:id/editar', (req, res) => {
-//   const libroABuscar = req.params.id
-//   const libroCambios = {req.body}
-//   Libro.findOne({id: libroABuscar}, 
-//     {$set: {id: {id}}}, {new: true}, (libros) => {
-//       if (err) return res.json({success: false, err})
-//     res.status(200).json({
-//       success: true
-//     })
-//   }) 
-// })
+app.put('/libros/:id/editar', (req, res) => {
+  Libro.findOneAndUpdate(req.params.id, req.body).then(() => {
+    libro.save((err,doc) => {
+      if (err) return res.json({success: false, err})
+      res.status(200).json({
+        success: true
+    })
+    })
+  })
+})
 
 //Borra un libro
 app.delete('/libros/:id/borrar', (req, res) => {
-  const libroABuscar = req.params.id
-  Libro.deleteOne({id: libroABuscar}).then(libros => {
+  const libroAEliminar = req.params.id
+  Libro.deleteOne({id: libroAEliminar}).then(libros => {
       res.status(200).json({
         success: true
       })
@@ -77,6 +77,21 @@ app.post('/autores/nuevo', (req,res) => {
   })
 })
 
+app.get('/autores/:id', (req, res) => {
+  const autorABuscar = req.params.id
+  Autor.find({id: autorABuscar}).then(autor => {
+      res.send(autor)
+  })
+})
+
+app.delete('/autores/:id/borrar', (req,res) => {
+  const autorAEliminar = req.params.id
+  Autor.deleteOne({id: autorAEliminar}).then(
+    res.status(200).json({
+      success:true
+    })
+  )
+})
 
 app.listen(port, () => {
     console.log(`Servidor corriendo en el puerto ${port}`)
